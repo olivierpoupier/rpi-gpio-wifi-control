@@ -31,29 +31,12 @@ app.get("/", function(req, res) {
   res.render("index", { status: "Press Button To change Status of Led !!" });
 });
 
-app.post("/1", function(req, res) {
-  writePin(1);
-});
-app.post("/2", function(req, res) {
-  writePin(2);
-});
-app.post("/3", function(req, res) {
-  writePin(3);
-});
-app.post("/4", function(req, res) {
-  writePin(4);
-});
-app.post("/5", function(req, res) {
-  writePin(5);
-});
-app.post("/6", function(req, res) {
-  writePin(6);
-});
-app.post("/7", function(req, res) {
-  writePin(7);
-});
-app.post("/8", function(req, res) {
-  writePin(8);
+app.post("/:id", function(req, res) {
+  if (req.params.id >= 1 && req.params.id <= 8) {
+    writePin(req.params.id);
+  } else {
+    res.status(404).json("Invalid pin number");
+  }
 });
 
 app.listen(3000, function() {
