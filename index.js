@@ -11,96 +11,34 @@ pins.forEach(pin => {
     gpio.setup(pin, DIR_OUT, write);
 });
 
-app.set('view engine', ejs);
-app.use(static(path.join(__dirname, 'public')));
+function writePin(pin) {
+  const pin = pins[pin - 1];
+  const state = gpio.read(pin);
 
-console.log(path.join(__dirname, 'public'));
+  gpio.write(pin, !state, function(err) {
+    if (err) throw err;
+    console.log("Written True to pin");
+    console.log(path.join(__dirname, "public"));
+  });
+}
 
-app.get('/', function(req, res){ 
-    res.render('index',{status:"Press Button To change Status of Led !!"});
+app.set("view engine", ejs);
+app.use(static(path.join(__dirname, "public")));
+
+console.log(path.join(__dirname, "public"));
+
+app.get("/", function(req, res) {
+  res.render("index", { status: "Press Button To change Status of Led !!" });
 });
 
-app.post('/1', function(req, res){
-    const pin = pins[0];
-    const state = gpio.read(pin);
-
-    gpio.write(pin, !state, function(err) {
-        if (err) throw err;
-        console.log('Written True to pin');
-        console.log(path.join(__dirname, 'public'));
-    });
-});
-app.post('/2', function(req, res){
-    const pin = pins[1];
-    const state = gpio.read(pin);
-
-    gpio.write(pin, !state, function(err) {
-        if (err) throw err;
-        console.log('Written True to pin');
-        console.log(path.join(__dirname, 'public'));
-    });
-});
-app.post('/3', function(req, res){
-    const pin = pins[2];
-    const state = gpio.read(pin);
-
-    gpio.write(pin, !state, function(err) {
-        if (err) throw err;
-        console.log('Written True to pin');
-        console.log(path.join(__dirname, 'public'));
-    });
-});
-app.post('/4', function(req, res){
-    const pin = pins[3];
-    const state = gpio.read(pin);
-
-    gpio.write(pin, !state, function(err) {
-        if (err) throw err;
-        console.log('Written True to pin');
-        console.log(path.join(__dirname, 'public'));
-    });
-});
-app.post('/5', function(req, res){
-    const pin = pins[4];
-    const state = gpio.read(pin);
-
-    gpio.write(pin, !state, function(err) {
-        if (err) throw err;
-        console.log('Written True to pin');
-        console.log(path.join(__dirname, 'public'));
-    });
-});
-app.post('/6', function(req, res){
-    const pin = pins[5];
-    const state = gpio.read(pin);
-
-    gpio.write(pin, !state, function(err) {
-        if (err) throw err;
-        console.log('Written True to pin');
-        console.log(path.join(__dirname, 'public'));
-    });
-});
-app.post('/7', function(req, res){
-    const pin = pins[6];
-    const state = gpio.read(pin);
-
-    gpio.write(pin, !state, function(err) {
-        if (err) throw err;
-        console.log('Written True to pin');
-        console.log(path.join(__dirname, 'public'));
-    });
-});
-app.post('/8', function(req, res){
-    const pin = pins[7];
-    const state = gpio.read(pin);
-
-    gpio.write(pin, !state, function(err) {
-        if (err) throw err;
-        console.log('Written True to pin');
-        console.log(path.join(__dirname, 'public'));
-    });
+app.post("/:id", function(req, res) {
+  if (req.params.id >= 1 && req.params.id <= 8) {
+    writePin(req.params.id);
+  } else {
+    res.status(404).json("Invalid pin number");
+  }
 });
 
-app.listen(3000, function () {
-    console.log('Simple LED Control Server Started on Port: 3000!');
+app.listen(3000, function() {
+  console.log("Simple LED Control Server Started on Port: 3000!");
 });
