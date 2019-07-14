@@ -9,7 +9,7 @@
   "keywords": [
     "rpi"
   ],
-  "author": "satya sankar sahoo (www.myelectronicslab.com)",
+  "author": "Olivier Poupier",
   "license": "ISC",
   "dependencies": {
     "ejs": "^2.6.2",

@@ -5,9 +5,9 @@ const gpio = require("rpi-gpio");
 const app = express();
 
 //change the values for the pins you want to use
-const pins = [1, 2, 3, 4, 5, 6, 7, 8];
+const pins = [7, 11, 13, 15, 16, 18, 22, 29];
 
-array.forEach(pin => {
+pins.forEach(pin => {
     gpio.setup(pin, DIR_OUT, write);
 });
 
